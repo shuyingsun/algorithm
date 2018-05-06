@@ -7,13 +7,13 @@ int create_tree(struct TreeNode **node) {
     int val = 0;
 
     printf("Input TreeNode value, enter \"0\" to indicate NULL.\n");
-    scanf ("%d", &val);
+    scanf("%d", &val);
     if (val == 0) {
         *node = NULL;
     } else {
         *node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
         if (*node == NULL) {
-            printf ("Malloc failure.\n");
+            printf("Malloc failure.\n");
             return 0;
         }
         (*node)->val = val;

@@ -12,5 +12,5 @@ clean:
 	rm -rf $(EXES)
 
 heap:
-	@echo "makeing $@"
+	@echo "making $@"
 	$(CC) $(CFLAGS) -o $@ heap.c $(LIBS)

@@ -37,14 +37,14 @@ void counting_sort(int *nums, int *result, int range, int numsSize) {
     }
 
     bzero(counting, sizeof(int) * range);
-    print_num_array(counting, range);
     for (idx = 0; idx < numsSize; idx++)
         counting[nums[idx]]++;
     for (idx = 1; idx < range; idx++)
         counting[idx] += counting[idx - 1];
+    print_num_array(counting, range);
     for (idx = numsSize - 1; idx >= 0; idx--) {
-        result[counting[nums[idx]]] = nums[idx];
         counting[nums[idx]]--;
+        result[counting[nums[idx]]] = nums[idx];
     }
     free(counting);
 }
