@@ -2,21 +2,10 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <math.h>
+#include "common.h"
 #include "../../lib/array/static_array_lib.h"
 
 #define NUM 10
-
-int get_max_val(int *nums, int numsSize) {
-    int max = nums[0];
-    int idx;
-
-    for (idx = 1; idx < numsSize; idx++) {
-        if (nums[idx] > max)
-            max = nums[idx];
-    }
-
-    return max;
-}
 
 void counting_sort(int *nums, int *origin_nums, int *result, int numsSize) {
     int idx;

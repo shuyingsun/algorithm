@@ -22,9 +22,9 @@ counting_sort: $(OBJS)
 	@echo "making $@"
 	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) counting_sort.c $(LIBS)
 
-radix_sort:
+radix_sort: $(OBJS)
 	@echo "making $@"
-	$(CC) $(CFLAGS) -o $@ radix_sort.c $(LIBS) -lm
+	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) radix_sort.c $(LIBS) -lm
 
 %.o: %.c $(HFILES)
 	$(CC) $(CFLAGS) -c -o $(notdir $@) $<
