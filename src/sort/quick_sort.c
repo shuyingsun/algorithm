@@ -3,14 +3,14 @@
 #include <stdbool.h>
 #include "../../lib/array/static_array_lib.h"
 
-static int count = 0;
+int partition_count = 0;
 
 int partition_dec(int *nums, int start, int end) {
     int i = start - 1, j = start;
     int key = nums[end], tmp;
     bool same_elements = 1;
 
-    count++;
+    partition_count++;
 
     // Assume start < end
     while (j < end) {
@@ -38,13 +38,13 @@ int randomized_partition_dec(int *nums, int start, int end) {
     int key, tmp;
     bool same_elements = 1;
 
-    count++;
+    partition_count++;
     random = start + (int)((end - start) * rand() / RAND_MAX);
     if (random < end) {
         tmp = nums[random];
         nums[random] = nums[end];
         nums[end] = tmp;
-        printf("The %d time of partition is using %d as key.\n", count, nums[end]);
+        printf("The %d time of partition is using %d as key.\n", partition_count, nums[end]);
     }
     key = nums[end];
 
@@ -87,6 +87,8 @@ void quick_sort_dec(int *nums, int start, int end) {
 int hoare_partition_dec(int *nums, int start, int end) {
     int key = nums[start], tmp;
     int i = start - 1, j = end + 1;
+
+    partition_count++;
 
     while (1) {
         do {
@@ -133,6 +135,8 @@ void partition2_inc(int *nums, int start, int end, int *mid1, int *mid2) {
     *mid1 = start - 1;
     *mid2 = start - 1;
 
+    partition_count++;
+
     printf("start=%d, end=%d\n", start, end);
     while (j < end) {
         printf("mid1=%d, mid2=%d, i=%d, j=%d, nums[j]=%d, key=%d\n", *mid1, *mid2, i, j, nums[j], key);
@@ -176,22 +180,4 @@ void quick_sort2_inc(int *nums, int start, int end) {
     print_num_array(nums + start, end - start + 1);
     quick_sort2_inc(nums, start, mid1);
     quick_sort2_inc(nums, mid2 + 1, end);
-}
-
-int main(int argc, char *argv[]) {
-    int numsSize = 0;
-    int *nums = create_num_array(&numsSize);
-
-    if (numsSize == 0)
-        return 0;
-    print_num_array(nums, numsSize);
-
-    //quick_sort_dec(nums, 0, numsSize - 1);
-    //hoare_quick_sort_dec(nums, 0, numsSize - 1);
-    quick_sort2_inc(nums, 0, numsSize - 1);
-    printf("\nAfter decreasing quick_sort with %d calling partition():", count);
-    print_num_array(nums, numsSize);
-
-    free(nums);
-    return 0;
 }

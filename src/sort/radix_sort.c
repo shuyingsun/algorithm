@@ -7,7 +7,7 @@
 
 #define NUM 10
 
-void counting_sort(int *nums, int *origin_nums, int *result, int numsSize) {
+void radix_counting_sort(int *nums, int *origin_nums, int *result, int numsSize) {
     int idx;
     int *counting = (int *)malloc(sizeof(int) * NUM);
 
@@ -47,28 +47,11 @@ void radix_sort(int *nums, int numsSize) {
         }
         printf("\nradix_nums:");
         print_num_array(radix_nums, numsSize);
-        counting_sort(radix_nums, nums, result, numsSize);
+        radix_counting_sort(radix_nums, nums, result, numsSize);
         for (idx = 0; idx < numsSize; idx++)
             nums[idx] = result[idx];
         printf("\nAfter the %d time of counting sort:", radix + 1);
         print_num_array(nums, numsSize);
     }
     free(radix_nums);
-}
-
-int main(int argc, char *argv[]) {
-    int numsSize = 0;
-    int *nums = create_num_array(&numsSize);
-
-    if (numsSize == 0)
-        return 0;
-    print_num_array(nums, numsSize);
-
-    radix_sort(nums, numsSize);
-
-    printf("\nAfter sorting:");
-    print_num_array(nums, numsSize);
-
-    free(nums);
-    return 0;
 }

@@ -2,32 +2,6 @@
 #include <stdlib.h>
 #include <strings.h>
 #include "../../lib/array/static_array_lib.h"
-#include "common.h"
-/*
-int get_max_val(int *nums, int numsSize) {
-    int max = nums[0];
-    int idx;
-
-    for (idx = 1; idx < numsSize; idx++) {
-        if (nums[idx] > max)
-            max = nums[idx];
-    }
-
-    return max;
-}
-
-int get_min_val(int *nums, int numsSize) {
-    int min = nums[0];
-    int idx;
-
-    for (idx = 1; idx < numsSize; idx++) {
-        if (nums[idx] < min)
-            min = nums[idx];
-    }
-
-    return min;
-}
-*/
 
 void counting_sort(int *nums, int *result, int min, int max, int numsSize) {
     int idx;
@@ -50,32 +24,4 @@ void counting_sort(int *nums, int *result, int min, int max, int numsSize) {
         result[counting[nums[idx] - min]] = nums[idx];
     }
     free(counting);
-}
-
-int main(int argc, char *argv[]) {
-    int numsSize = 0;
-    int *nums = create_num_array(&numsSize);
-    int *result = NULL;
-    int max, min;
-
-    if (numsSize == 0)
-        return 0;
-    print_num_array(nums, numsSize);
-
-    result = (int *)malloc(sizeof(int) * numsSize);
-    if (result == NULL) {
-        printf("Malloc failure.\n");
-        return 0;
-    }
-
-    max = get_max_val(nums, numsSize);
-    min = get_min_val(nums, numsSize);
-    counting_sort(nums, result, min, max, numsSize);
-
-    printf("\nAfter sorting:");
-    print_num_array(result, numsSize);
-
-    free(nums);
-    free(result);
-    return 0;
 }
