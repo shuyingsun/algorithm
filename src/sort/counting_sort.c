@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <strings.h>
 #include "../../lib/array/static_array_lib.h"
-
+#include "common.h"
+/*
 int get_max_val(int *nums, int numsSize) {
     int max = nums[0];
     int idx;
@@ -26,9 +27,11 @@ int get_min_val(int *nums, int numsSize) {
 
     return min;
 }
+*/
 
-void counting_sort(int *nums, int *result, int range, int numsSize) {
+void counting_sort(int *nums, int *result, int min, int max, int numsSize) {
     int idx;
+    int range = max - min + 1;
     int *counting = (int *)malloc(sizeof(int) * range);
 
     if (counting == NULL) {
@@ -38,13 +41,13 @@ void counting_sort(int *nums, int *result, int range, int numsSize) {
 
     bzero(counting, sizeof(int) * range);
     for (idx = 0; idx < numsSize; idx++)
-        counting[nums[idx]]++;
+        counting[nums[idx] - min]++;
     for (idx = 1; idx < range; idx++)
         counting[idx] += counting[idx - 1];
     print_num_array(counting, range);
     for (idx = numsSize - 1; idx >= 0; idx--) {
-        counting[nums[idx]]--;
-        result[counting[nums[idx]]] = nums[idx];
+        counting[nums[idx] - min]--;
+        result[counting[nums[idx] - min]] = nums[idx];
     }
     free(counting);
 }
@@ -67,7 +70,7 @@ int main(int argc, char *argv[]) {
 
     max = get_max_val(nums, numsSize);
     min = get_min_val(nums, numsSize);
-    counting_sort(nums, result, (max - min + 1), numsSize);
+    counting_sort(nums, result, min, max, numsSize);
 
     printf("\nAfter sorting:");
     print_num_array(result, numsSize);
