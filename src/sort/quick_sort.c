@@ -33,6 +33,42 @@ int partition_dec(int *nums, int start, int end) {
     return i;
 }
 
+int randomized_partition(int *nums, int start, int end) {
+    int i = start - 1, j = start, random = end;
+    int key, tmp;
+    bool same_elements = 1;
+
+    partition_count++;
+    random = start + (int)((end - start) * rand() / RAND_MAX);
+    if (random < end) {
+        tmp = nums[random];
+        nums[random] = nums[end];
+        nums[end] = tmp;
+        printf("The %d time of partition is using %d as key.\n", partition_count, nums[end]);
+    }
+    key = nums[end];
+
+    // Assume start < end
+    while (j < end) {
+        if (nums[j] != key)
+            same_elements = 0;
+        if (nums[j] < key) {
+            i++;
+            tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+        j++;
+    }
+    i++;
+    nums[end] = nums[i];
+    nums[i] = key;
+
+    if (same_elements) 
+        return (start + end) / 2;
+    return i;
+}
+
 int randomized_partition_dec(int *nums, int start, int end) {
     int i = start - 1, j = start, random = end;
     int key, tmp;

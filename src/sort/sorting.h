@@ -2,6 +2,7 @@ void counting_sort(int *nums, int *result, int min, int max, int numsSize);
 
 
 int partition_dec(int *nums, int start, int end);
+int randomized_partition(int *nums, int start, int end);
 int randomized_partition_dec(int *nums, int start, int end);
 void quick_sort_dec(int *nums, int start, int end);
 
