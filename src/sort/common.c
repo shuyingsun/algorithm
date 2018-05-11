@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 int get_max_val(int *nums, int numsSize) {
     int max = nums[0];
     int idx;
@@ -26,4 +28,16 @@ void swap(int *a,int *b) {
     int tmp = *a;
     *a = *b;
     *b = tmp;
+}
+
+int get_index(int *nums, int numsSize, int val) {
+    int idx;
+
+    for (idx = 0; idx < numsSize; idx++) {
+        if (nums[idx] == val)
+            return idx;
+    }
+
+    printf("Cannot find %d.\n", val);
+    return -1;
 }

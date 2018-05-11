@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
+#include "common.h"
 #include "../../lib/array/static_array_lib.h"
 
 int partition_count = 0;
@@ -17,6 +19,31 @@ int partition_dec(int *nums, int start, int end) {
         if (nums[j] != key)
             same_elements = 0;
         if (nums[j] > key) {
+            i++;
+            swap(&(nums[i]), &(nums[j]));
+        }
+        j++;
+    }
+    i++;
+    swap(&(nums[i]), &(nums[end]));
+
+    if (same_elements) 
+        return (start + end) / 2;
+    return i;
+}
+
+int partition(int *nums, int start, int end) {
+    int i = start - 1, j = start;
+    int key = nums[end];
+    bool same_elements = 1;
+
+    partition_count++;
+
+    // Assume start < end
+    while (j < end) {
+        if (nums[j] != key)
+            same_elements = 0;
+        if (nums[j] < key) {
             i++;
             swap(&(nums[i]), &(nums[j]));
         }

@@ -2,10 +2,10 @@ CC = gcc
 CFLAGS = -g -Wall
 LIBPATH = -L$(SRCTOP)/../../lib/array/
 LIBS = $(LIBPATH) -lstatic_array_lib -lm
-CFILES = common.c quick_sort.c counting_sort.c radix_sort.c insertion_sort.c
-HFILES = common.h sorting.h
+CFILES = common.c quick_sort.c counting_sort.c radix_sort.c insertion_sort.c randomized_select.c linear_time_select.c
+HFILES = common.h sorting.h selecting.h
 OBJS = $(CFILES:%.c=%.o)
-EXES = test_quick_sort test_counting_sort test_radix_sort test_insertion_sort
+EXES = test_quick_sort test_counting_sort test_radix_sort test_insertion_sort test_randomized_select test_linear_time_select
 
 all: clean $(EXES)
 	@echo you have typed command "make $@"
@@ -32,3 +32,11 @@ test_radix_sort: $(OBJS)
 test_insertion_sort: $(OBJS)
 	@echo "making $@"
 	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_insertion_sort.c $(LIBS)
+
+test_randomized_select: $(OBJS)
+	@echo "making $@"
+	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_randomized_select.c $(LIBS)
+
+test_linear_time_select: $(OBJS)
+	@echo "making $@"
+	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_linear_time_select.c $(LIBS)
