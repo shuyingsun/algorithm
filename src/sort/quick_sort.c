@@ -7,7 +7,7 @@ int partition_count = 0;
 
 int partition_dec(int *nums, int start, int end) {
     int i = start - 1, j = start;
-    int key = nums[end], tmp;
+    int key = nums[end];
     bool same_elements = 1;
 
     partition_count++;
@@ -18,15 +18,12 @@ int partition_dec(int *nums, int start, int end) {
             same_elements = 0;
         if (nums[j] > key) {
             i++;
-            tmp = nums[i];
-            nums[i] = nums[j];
-            nums[j] = tmp;
+            swap(&(nums[i]), &(nums[j]));
         }
         j++;
     }
     i++;
-    nums[end] = nums[i];
-    nums[i] = key;
+    swap(&(nums[i]), &(nums[end]));
 
     if (same_elements) 
         return (start + end) / 2;
@@ -35,15 +32,14 @@ int partition_dec(int *nums, int start, int end) {
 
 int randomized_partition(int *nums, int start, int end) {
     int i = start - 1, j = start, random = end;
-    int key, tmp;
+    int key;
     bool same_elements = 1;
 
     partition_count++;
+    srand(time(NULL));
     random = start + (int)((end - start) * rand() / RAND_MAX);
     if (random < end) {
-        tmp = nums[random];
-        nums[random] = nums[end];
-        nums[end] = tmp;
+        swap(&(nums[random]), &(nums[end]));
         printf("The %d time of partition is using %d as key.\n", partition_count, nums[end]);
     }
     key = nums[end];
@@ -54,9 +50,7 @@ int randomized_partition(int *nums, int start, int end) {
             same_elements = 0;
         if (nums[j] < key) {
             i++;
-            tmp = nums[i];
-            nums[i] = nums[j];
-            nums[j] = tmp;
+            swap(&(nums[i]), &(nums[j]));
         }
         j++;
     }
@@ -71,15 +65,14 @@ int randomized_partition(int *nums, int start, int end) {
 
 int randomized_partition_dec(int *nums, int start, int end) {
     int i = start - 1, j = start, random = end;
-    int key, tmp;
+    int key;
     bool same_elements = 1;
 
     partition_count++;
+    srand(time(NULL));
     random = start + (int)((end - start) * rand() / RAND_MAX);
     if (random < end) {
-        tmp = nums[random];
-        nums[random] = nums[end];
-        nums[end] = tmp;
+        swap(&(nums[random]), &(nums[end]));
         printf("The %d time of partition is using %d as key.\n", partition_count, nums[end]);
     }
     key = nums[end];
@@ -90,9 +83,7 @@ int randomized_partition_dec(int *nums, int start, int end) {
             same_elements = 0;
         if (nums[j] > key) {
             i++;
-            tmp = nums[i];
-            nums[i] = nums[j];
-            nums[j] = tmp;
+            swap(&(nums[i]), &(nums[j]));
         }
         j++;
     }
@@ -121,7 +112,7 @@ void quick_sort_dec(int *nums, int start, int end) {
 }
 
 int hoare_partition_dec(int *nums, int start, int end) {
-    int key = nums[start], tmp;
+    int key = nums[start];
     int i = start - 1, j = end + 1;
 
     partition_count++;
@@ -135,9 +126,7 @@ int hoare_partition_dec(int *nums, int start, int end) {
         } while (nums[i] > key);
         if (i >= j)
             return j;
-        tmp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = tmp;
+        swap(&(nums[i]), &(nums[j]));
     }
 }
 
@@ -167,7 +156,7 @@ void hoare_quick_sort_dec(int *nums, int start, int end) {
  */
 void partition2_inc(int *nums, int start, int end, int *mid1, int *mid2) {
     int i = start - 1, j = start;
-    int key = nums[end], tmp;
+    int key = nums[end];
     *mid1 = start - 1;
     *mid2 = start - 1;
 
@@ -178,28 +167,21 @@ void partition2_inc(int *nums, int start, int end, int *mid1, int *mid2) {
         printf("mid1=%d, mid2=%d, i=%d, j=%d, nums[j]=%d, key=%d\n", *mid1, *mid2, i, j, nums[j], key);
         if (nums[j] == key) {
             (*mid2)++;
-            tmp = nums[j];
-            nums[j] = nums[*mid2];
-            nums[*mid2] = tmp;
+            swap(&(nums[*mid2]), &(nums[j]));
         } else if (nums[j] < key) {
             i++;
             (*mid1)++;
             (*mid2)++;
-            tmp = nums[i];
-            nums[i] = nums[j];
-            nums[j] = tmp;
+            swap(&(nums[i]), &(nums[j]));
 
             if (*mid1 != *mid2) {
-                nums[j] = nums[*mid2];
-                nums[*mid2] = tmp;
+                swap(&(nums[*mid2]), &(nums[j]));
             }
         }
         j++;
     }
     (*mid2)++;
-    tmp = nums[end];
-    nums[end] = nums[*mid2];
-    nums[*mid2] = tmp;
+    swap(&(nums[*mid2]), &(nums[end]));
 }
 
 void quick_sort2_inc(int *nums, int start, int end) {

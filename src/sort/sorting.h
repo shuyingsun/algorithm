@@ -15,3 +15,7 @@ void quick_sort2_inc(int *nums, int start, int end);
 
 void radix_counting_sort(int *nums, int *origin_nums, int *result, int numsSize);
 void radix_sort(int *nums, int numsSize);
+
+
+void insertion_sort(int *nums, int numsSize);
+void insertion_sort_dec(int *nums, int numsSize);
