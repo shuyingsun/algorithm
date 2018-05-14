@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "common.h"
+#include "selecting.h"
 #include "../../lib/array/static_array_lib.h"
 
 extern int partition_count;
@@ -14,12 +14,11 @@ int main(int argc, char *argv[]) {
         return 0;
     print_num_array(nums, numsSize);
 
-    printf("Select a number from the array, enter an index no larger than %d: ", numsSize);
-    scanf("%d", &idx);
-
-    key = randomized_select(nums, 0, numsSize - 1, idx);
-    printf("\nFound %d after %d calling randomized_select():", key, partition_count);
-    print_num_array(nums, numsSize);
+    //for (idx = 1; idx <= numsSize; idx++) {
+    for (idx = 1; idx <= 1; idx++) {
+        key = linear_time_select(nums, 0, numsSize - 1, idx);
+        printf("\nFound %d as the %dst least number after %d calling linear_time_select()\n", key, idx, partition_count);
+    }
 
     free(nums);
     return 0;

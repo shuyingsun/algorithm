@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../sort/sorting.h"
+#include "sorting.h"
 
 int randomized_select(int *nums, int start, int end, int idx) {
     int mid = start, k;
