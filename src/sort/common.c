@@ -34,6 +34,7 @@ int get_index(int *nums, int numsSize, int val) {
     int idx;
 
     for (idx = 0; idx < numsSize; idx++) {
+        // printf("nums[%d] = %d\n", idx, nums[idx]);
         if (nums[idx] == val)
             return idx;
     }

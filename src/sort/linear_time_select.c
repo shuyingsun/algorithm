@@ -12,6 +12,10 @@ int linear_time_select(int *nums, int start, int end, int idx) {
     int i, sub_start, sub_end, median_idx = -1, mid, k;
     int *medians = NULL, median;
 
+    // printf("\nIn this linear_time_select():");
+    // print_num_array(nums + start, end - start + 1);
+
+
     if (start == end)
         return nums[start];
 
@@ -29,40 +33,47 @@ int linear_time_select(int *nums, int start, int end, int idx) {
 
     // Find #ngroups medians
     for (i = 0; i < ngroups; i++) {
-        sub_start = i * GROUP_SIZE;
+        sub_start = start + i * GROUP_SIZE;
         sub_end = (sub_start + GROUP_SIZE - 1) < end ? (sub_start + GROUP_SIZE - 1) : end;
         // Insertion_sort for sub array nums[sub_start...sub_end]
         insertion_sort(nums + sub_start, sub_end - sub_start + 1);
         medians[i] = nums[(sub_start + sub_end) / 2];
     }
-    printf("Found the medians:");
-    print_num_array(medians, ngroups);
+    // printf("Found the medians:");
+    // print_num_array(medians, ngroups);
 
     // Find median from the medians
     for (i = 0; i < ngroups; i++)
         // Insertion_sort for array medians[]
         insertion_sort(medians, ngroups);
     median = medians[ngroups / 2];
-    printf("The median of medians[] is %d.\n", median);
+    // printf("The median of medians[] is %d.\n", median);
 
     // Get the index of median in nums[]
-    median_idx = get_index(nums, end - start + 1, median);
-    if (median_idx == -1)
+    median_idx = start + get_index(nums + start, end - start + 1, median);
+    if (median_idx == -1) {
+        free(medians);
         return nums[start];
-    printf("The median %d has index=%d.\n", median, median_idx);
+    }
+    // printf("The median %d has index=%d.\n", median, median_idx);
 
     swap(&(nums[median_idx]), &(nums[end]));
-    printf("After swapping the median.");
-    print_num_array(nums, numsSize);
+    // printf("After swapping the median.");
+    // print_num_array(nums + start, end - start + 1);
     mid = partition(nums, start, end);
-    printf("After partition, found mid=%d:", mid);
-    print_num_array(nums, numsSize);
+    // printf("After partition, found mid=%d:", mid);
+    // print_num_array(nums + start, end - start + 1);
 
     k = mid - start + 1;
 
-    if (idx == k)
+    if (idx == k) {
+        free(medians);
         return nums[mid];
-    if (idx < k)
+    }
+    if (idx < k) {
+        free(medians);
         return linear_time_select(nums, start, mid - 1, idx);
-    return linear_time_select(nums, mid + 1, end, idx - mid);
+    }
+    free(medians);
+    return linear_time_select(nums, mid + 1, end, idx - k);
 }

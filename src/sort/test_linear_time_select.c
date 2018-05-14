@@ -14,10 +14,10 @@ int main(int argc, char *argv[]) {
         return 0;
     print_num_array(nums, numsSize);
 
-    //for (idx = 1; idx <= numsSize; idx++) {
-    for (idx = 1; idx <= 1; idx++) {
+    for (idx = 1; idx <= numsSize; idx++) {
+    // for (idx = 1; idx <= 1; idx++) {
         key = linear_time_select(nums, 0, numsSize - 1, idx);
-        printf("\nFound %d as the %dst least number after %d calling linear_time_select()\n", key, idx, partition_count);
+        printf("Found %d as the %dst least number after %d calling linear_time_select()\n", key, idx, partition_count);
     }
 
     free(nums);
