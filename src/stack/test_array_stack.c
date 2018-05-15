@@ -5,36 +5,36 @@
 int main(int argc, char *argv[]) {
     int ret = -1;
     int val;
-    array_stack my_stack;
+    array_stack *my_stack;
 
-    ret = create_array_stack(&my_stack);
-    if (ret == -1)
+    my_stack = create_array_stack();
+    if (my_stack == NULL)
         return 0;
 
-    ret = push_array_stack(&my_stack, 4);
+    ret = push_array_stack(my_stack, 4);
     printf("After push(S, 4), stack.top = %d:", ret);
-    print_num_array(my_stack.nums, my_stack.stackSize);
+    print_num_array(my_stack->nums, my_stack->stackSize);
 
-    ret = push_array_stack(&my_stack, 1);
+    ret = push_array_stack(my_stack, 1);
     printf("After push(S, 1), stack.top = %d:", ret);
-    print_num_array(my_stack.nums, my_stack.stackSize);
+    print_num_array(my_stack->nums, my_stack->stackSize);
 
-    ret = push_array_stack(&my_stack, 3);
+    ret = push_array_stack(my_stack, 3);
     printf("After push(S, 3), stack.top = %d:", ret);
-    print_num_array(my_stack.nums, my_stack.stackSize);
+    print_num_array(my_stack->nums, my_stack->stackSize);
 
-    ret = pop_array_stack(&my_stack, &val);
+    ret = pop_array_stack(my_stack, &val);
     printf("After pop(S), stack.top = %d:", ret);
-    print_num_array(my_stack.nums, my_stack.stackSize);
+    print_num_array(my_stack->nums, my_stack->stackSize);
 
-    ret = push_array_stack(&my_stack, 8);
+    ret = push_array_stack(my_stack, 8);
     printf("After push(S, 8), stack.top = %d:", ret);
-    print_num_array(my_stack.nums, my_stack.stackSize);
+    print_num_array(my_stack->nums, my_stack->stackSize);
 
-    ret = pop_array_stack(&my_stack, &val);
+    ret = pop_array_stack(my_stack, &val);
     printf("After pop(S), stack.top = %d:", ret);
-    print_num_array(my_stack.nums, my_stack.stackSize);
+    print_num_array(my_stack->nums, my_stack->stackSize);
 
-    destroy_array_stack(&my_stack);
+    destroy_array_stack(my_stack);
     return 0;
 }
