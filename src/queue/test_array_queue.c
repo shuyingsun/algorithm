@@ -65,6 +65,10 @@ int main(int argc, char *argv[]) {
     printf("After dequeue(Q), queue->head = %d, queue->tail = %d:", my_queue->head, my_queue->tail);
     print_num_array(my_queue->nums, my_queue->queueSize);
 
+    enqueue_array(my_queue, 66);
+    printf("After enqueue(Q, 7), queue->head = %d, queue->tail = %d:", my_queue->head, my_queue->tail);
+    print_num_array(my_queue->nums, my_queue->queueSize);
+
     destroy_array_queue(my_queue);
     return 0;
 }
