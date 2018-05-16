@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <malloc.h>
 #include "static_stack_lib.h"
 
 /*
@@ -8,18 +5,9 @@
  * If success, return stack size
  * If failure, return -1
  */
-array_stack* create_array_stack() {
-    unsigned int stackSize = 0;
+array_stack* create_array_stack(int stackSize) {
     array_stack* new_stack = NULL;
     int *new_nums = NULL;
-
-    printf("Please input an integer larger than 0 to specify the size of stack: ");
-    scanf("%d", &stackSize);
-
-    if (stackSize <= 0) {
-        printf("Invalid stack size!\n");
-        return NULL;
-    }
 
     new_stack = (array_stack *)malloc(sizeof(array_stack));
     if (new_stack == NULL) {
@@ -41,18 +29,9 @@ array_stack* create_array_stack() {
     return new_stack;
 }
 
-two_end_array_stack* create_two_end_array_stack() {
-    unsigned int stackSize = 0;
+two_end_array_stack* create_two_end_array_stack(int stackSize) {
     two_end_array_stack* new_stack = NULL;
     int *new_nums = NULL;
-
-    printf("Please input an integer larger than 0 to specify the size of stack: ");
-    scanf("%d", &stackSize);
-
-    if (stackSize <= 0) {
-        printf("Invalid stack size!\n");
-        return NULL;
-    }
 
     new_stack = (two_end_array_stack *)malloc(sizeof(two_end_array_stack));
     if (new_stack == NULL) {
@@ -75,6 +54,37 @@ two_end_array_stack* create_two_end_array_stack() {
     return new_stack;
 }
 
+queue_by_two_stacks* create_queue_by_two_stacks(int queueSize) {
+    queue_by_two_stacks *new_queue = NULL;
+    array_stack *new_stack1 = NULL, *new_stack2 = NULL;
+
+    new_queue = (queue_by_two_stacks *)malloc(sizeof(queue_by_two_stacks));
+    if (new_queue == NULL) {
+        printf("Malloc failure for new_queue.\n");
+        return NULL;
+    }
+
+    new_stack1 = create_array_stack(queueSize);
+    if (new_stack1 == NULL) {
+        printf("Create new_stack1 failed.\n");
+        free(new_queue);
+        return NULL;
+    }
+
+    new_stack2 = create_array_stack(queueSize);
+    if (new_stack2 == NULL) {
+        printf("Create new_stack2 failed.\n");
+        free(new_stack1);
+        free(new_queue);
+        return NULL;
+    }
+
+    new_queue->stack1 = new_stack1;
+    new_queue->stack2 = new_stack2;
+
+    return new_queue;
+}
+
 void destroy_array_stack(array_stack *stack) {
     if (stack == NULL)
         return;
@@ -91,6 +101,15 @@ void destroy_two_end_array_stack(two_end_array_stack *stack) {
     free(stack);
 }
 
+void destroy_queue_by_two_stacks(queue_by_two_stacks *queue) {
+    if (queue == NULL)
+        return;
+    if (queue->stack1 != NULL)
+        free(queue->stack1);
+    if (queue->stack2 != NULL)
+        free(queue->stack2);
+}
+
 /*
  * Check whether the stack is full
  * If full, return TRUE
@@ -102,6 +121,10 @@ bool is_array_stack_full(array_stack stack) {
 
 bool is_two_end_array_stack_full(two_end_array_stack stack) {
     return (stack.top1 == stack.top2 - 1);
+}
+
+bool is_queue_by_two_stacks_full(queue_by_two_stacks queue) {
+    return is_array_stack_full(*(queue.stack1));
 }
 
 /*
@@ -117,6 +140,10 @@ bool is_two_end_array_stack_empty(two_end_array_stack stack, bool is_forward) {
     if (is_forward)
         return stack.top1 == -1;
     return stack.top2 == stack.stackSize;
+}
+
+bool is_queue_by_two_stacks_empty(queue_by_two_stacks queue) {
+    return (is_array_stack_empty(*(queue.stack1)) && is_array_stack_empty(*(queue.stack2)));
 }
 
 /*
@@ -149,6 +176,14 @@ int push_two_end_array_stack(two_end_array_stack *stack, int val, bool is_forwar
     return stack->top2;
 }
 
+void enqueue_by_two_stacks(queue_by_two_stacks *queue, int val) {
+    if (is_queue_by_two_stacks_full(*queue)) {
+        printf("The queue is full, enqueue failed.\n");
+        return;
+    }
+    push_array_stack(queue->stack1, val);
+}
+
 /*
  * Delete top element from the stack, the value of top element would be saved in param @val
  * If success, return the updated top
@@ -177,4 +212,19 @@ int pop_two_end_array_stack(two_end_array_stack *stack, int *val, bool is_forwar
     *val = stack->nums[stack->top2];
     stack->top2++;
     return stack->top2;
+}
+
+bool dequeue_by_two_stacks(queue_by_two_stacks *queue, int *val) {
+    if (is_queue_by_two_stacks_empty(*queue)) {
+        printf("The queue is empty, dequeue failed.\n");
+        return false;
+    }
+    if (is_array_stack_empty(*(queue->stack2))) {
+        while (!is_array_stack_empty(*(queue->stack1))) {
+            pop_array_stack(queue->stack1, val);
+            push_array_stack(queue->stack2, *val);
+        }
+    }
+    pop_array_stack(queue->stack2, val);
+    return true;
 }

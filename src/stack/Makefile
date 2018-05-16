@@ -5,7 +5,7 @@ LIBS = $(LIBPATH) -lstatic_array_lib -lstatic_stack_lib -lm
 CFILES =
 HFILES =
 OBJS = $(CFILES:%.c=%.o)
-EXES = test_array_stack test_two_end_array_stack
+EXES = test_array_stack test_two_end_array_stack test_queue_by_two_stacks
 
 all: clean $(EXES)
 	@echo you have typed command "make $@"
@@ -21,6 +21,10 @@ test_array_stack: $(OBJS)
 test_two_end_array_stack: $(OBJS)
 	@echo "making $@"
 	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_two_end_array_stack.c $(LIBS)
+
+test_queue_by_two_stacks: $(OBJS)
+	@echo "making $@"
+	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_queue_by_two_stacks.c $(LIBS)
 
 %.o: %.c $(HFILES)
 	$(CC) $(CFLAGS) -c -o $(notdir $@) $< $(LIBS)

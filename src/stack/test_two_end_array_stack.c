@@ -6,9 +6,17 @@
 int main(int argc, char *argv[]) {
     int ret = -1;
     int val;
+    int stackSize;
     two_end_array_stack *my_stack;
 
-    my_stack = create_two_end_array_stack();
+    printf("Please input an integer larger than 0 to specify the size of stack: ");
+    scanf("%d", &stackSize);
+    if (stackSize <= 0) {
+        printf("Invalid stack size!\n");
+        return 0;
+    }
+
+    my_stack = create_two_end_array_stack(stackSize);
     if (my_stack == NULL)
         return 0;
 
