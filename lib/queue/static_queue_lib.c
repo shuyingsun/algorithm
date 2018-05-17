@@ -67,10 +67,8 @@ void destroy_array_queue(array_queue *queue) {
 void destroy_stack_by_two_queues(stack_by_two_queues *stack) {
     if (stack == NULL)
         return;
-    if (stack->queue1 != NULL)
-        free(stack->queue1);
-    if (stack->queue2 != NULL)
-        free(stack->queue2);
+    destroy_array_queue(stack->queue1);
+    destroy_array_queue(stack->queue2);
 }
 
 bool is_array_queue_empty(array_queue queue) {

@@ -104,10 +104,8 @@ void destroy_two_end_array_stack(two_end_array_stack *stack) {
 void destroy_queue_by_two_stacks(queue_by_two_stacks *queue) {
     if (queue == NULL)
         return;
-    if (queue->stack1 != NULL)
-        free(queue->stack1);
-    if (queue->stack2 != NULL)
-        free(queue->stack2);
+    destroy_array_stack(queue->stack1);
+    destroy_array_stack(queue->stack2);
 }
 
 /*
