@@ -5,7 +5,7 @@ LIBS = $(LIBPATH) -lstatic_array_lib -lstatic_queue_lib -lm
 CFILES =
 HFILES =
 OBJS = $(CFILES:%.c=%.o)
-EXES = test_array_queue test_array_dequeue
+EXES = test_array_queue test_array_dequeue test_stack_by_two_queues
 
 all: clean $(EXES)
 	@echo you have typed command "make $@"
@@ -21,6 +21,10 @@ test_array_queue: $(OBJS)
 test_array_dequeue: $(OBJS)
 	@echo "making $@"
 	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_array_dequeue.c $(LIBS)
+
+test_stack_by_two_queues: $(OBJS)
+	@echo "making $@"
+	$(CC) $(CFLAGS) -o $@ $(notdir $(OBJS)) test_stack_by_two_queues.c $(LIBS)
 
 %.o: %.c $(HFILES)
 	$(CC) $(CFLAGS) -c -o $(notdir $@) $< $(LIBS)

@@ -1,17 +1,8 @@
 #include "static_queue_lib.h"
 
-array_queue* create_array_queue() {
-    int queueSize;
+array_queue* create_array_queue(int queueSize) {
     array_queue *new_queue = NULL;
     int *new_nums = NULL;
-
-    printf("Please input an integer larger than 1 to specify the size of queue: ");
-    scanf("%d", &queueSize);
-
-    if (queueSize <= 1) {
-        printf("Invalid stack size!\n");
-        return NULL;
-    }
 
     new_queue = (array_queue *)malloc(sizeof(array_queue));
     if (new_queue == NULL) {
@@ -34,6 +25,37 @@ array_queue* create_array_queue() {
     return new_queue;
 }
 
+stack_by_two_queues* create_stack_by_two_queues(int stackSize) {
+    stack_by_two_queues *new_stack = NULL;
+    array_queue *new_queue1 = NULL, *new_queue2 = NULL;
+
+    new_stack = (stack_by_two_queues *)malloc(sizeof(stack_by_two_queues));
+    if (new_stack == NULL) {
+        printf("Malloc failure for new_stack.\n");
+        return NULL;
+    }
+
+    new_queue1 = create_array_queue(stackSize);
+    if (new_queue1 == NULL) {
+        free(new_stack);
+        printf("Malloc failure for new_queue1.\n");
+        return NULL;
+    }
+
+    new_queue2 = create_array_queue(stackSize);
+    if (new_queue2 == NULL) {
+        free(new_queue1);
+        free(new_stack);
+        printf("Malloc failure for new_queue2.\n");
+        return NULL;
+    }
+
+    new_stack->queue1 = new_queue1;
+    new_stack->queue2 = new_queue2;
+
+    return new_stack;
+}
+
 void destroy_array_queue(array_queue *queue) {
     if (queue == NULL)
         return;
@@ -42,12 +64,29 @@ void destroy_array_queue(array_queue *queue) {
     free(queue);
 }
 
+void destroy_stack_by_two_queues(stack_by_two_queues *stack) {
+    if (stack == NULL)
+        return;
+    if (stack->queue1 != NULL)
+        free(stack->queue1);
+    if (stack->queue2 != NULL)
+        free(stack->queue2);
+}
+
 bool is_array_queue_empty(array_queue queue) {
     return (queue.head == queue.tail);
 }
 
+bool is_stack_by_two_queues_empty(stack_by_two_queues stack) {
+    return (is_array_queue_empty(*(stack.queue1)) && is_array_queue_empty(*(stack.queue2)));
+}
+
 bool is_array_queue_full(array_queue queue) {
     return (queue.head == (queue.tail + 1) % queue.queueSize);
+}
+
+bool is_stack_by_two_queues_full(stack_by_two_queues stack) {
+    return (is_array_queue_full(*(stack.queue1)) || is_array_queue_full(*(stack.queue2)));
 }
 
 void enqueue_array(array_queue *queue, int val) {
@@ -98,4 +137,54 @@ void dequeue_deque_array(array_queue *queue, int *val, deque_direction dir) {
     }
     *val = queue->nums[queue->head];
     queue->head = (queue->head + 1) % queue->queueSize;
+}
+
+void push_by_two_queues(stack_by_two_queues *stack, int val) {
+    if (is_stack_by_two_queues_full(*stack)) {
+        printf("The stack is full, push failed.\n");
+        return;
+    }
+
+    /* In queue1 and queue2, there will be one empty, and one with elements inside */
+    if (!is_array_queue_empty(*(stack->queue1))) {
+        // enqueue the non-empty queue1
+        enqueue_array(stack->queue1, val);
+        return;
+    }
+
+    // queue1 is empty, enqueue queue2
+    enqueue_array(stack->queue2, val);
+    return;
+}
+
+bool pop_by_two_queues(stack_by_two_queues *stack, int *val) {
+    int queue_val;
+
+    if (is_stack_by_two_queues_empty(*stack)) {
+        printf("The stack is empty, pop failed.\n");
+        return false;
+    }
+
+    /* In queue1 and queue2, there will be one empty, and one with elements inside */
+    if (!is_array_queue_empty(*(stack->queue1))) {
+        // queue2 would be empty, pop from queue1 to queue2
+        while (true) {
+            dequeue_array(stack->queue1, &queue_val);
+            if (is_array_queue_empty(*(stack->queue1))) {
+                *val = queue_val;
+                return true;
+            }
+            enqueue_array(stack->queue2, queue_val);
+        }
+    }
+
+    // queue1 would be empty, pop from queue2 to queue1
+    while (true) {
+        dequeue_array(stack->queue2, &queue_val);
+        if (is_array_queue_empty(*(stack->queue2))) {
+            *val = queue_val;
+            return true;
+        }
+        enqueue_array(stack->queue1, queue_val);
+    }
 }

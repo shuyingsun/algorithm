@@ -2,10 +2,18 @@
 #include "../../lib/array/static_array_lib.h"
 
 int main(int argc, char *argv[]) {
-    int val;
+    int val, queueSize;
     array_queue *my_dequeue;
 
-    my_dequeue = create_array_queue();
+    printf("Please input an integer larger than 1 to specify the size of queue: ");
+    scanf("%d", &queueSize);
+
+    if (queueSize <= 1) {
+        printf("Invalid stack size!\n");
+        return 0;
+    }
+
+    my_dequeue = create_array_queue(queueSize);
     if (my_dequeue == NULL)
         return 0;
 
