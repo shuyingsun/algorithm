@@ -1,3 +1,6 @@
+#ifndef __STATIC_QUEUE_LIB_H__
+#define __STATIC_QUEUE_LIB_H__
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -35,3 +38,5 @@ bool is_stack_by_two_queues_empty(stack_by_two_queues stack);
 bool is_stack_by_two_queues_full(stack_by_two_queues stack);
 void push_by_two_queues(stack_by_two_queues *stack, int val);
 bool pop_by_two_queues(stack_by_two_queues *stack, int *val);
+
+#endif /* __STATIC_QUEUE_LIB_H__ */

@@ -1,3 +1,6 @@
+#ifndef __STATIC_STACK_LIB_H__
+#define __STATIC_STACK_LIB_H__
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,3 +44,5 @@ bool is_queue_by_two_stacks_full(queue_by_two_stacks queue);
 bool is_queue_by_two_stacks_empty(queue_by_two_stacks queue);
 void enqueue_by_two_stacks(queue_by_two_stacks *queue, int val);
 bool dequeue_by_two_stacks(queue_by_two_stacks *queue, int *val);
+
+#endif /* __STATIC_STACK_LIB_H__ */

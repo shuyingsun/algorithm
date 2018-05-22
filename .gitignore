@@ -1,0 +1,14 @@
+# ignore all files
+*
+
+# add all directories
+!*/
+
+# add files with extension .c and .h
+!*.[ch]
+
+# add Makefile
+!Makefile
+
+# add .gitignore
+!.gitignore
