@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -g -Wall
-CFILES = static_btree_lib.c
+CFILES = static_tree_lib.c
 OBJS = $(CFILES:%.c=%.o)
 LIBS = $(OBJS:%.o=lib%.a)
 

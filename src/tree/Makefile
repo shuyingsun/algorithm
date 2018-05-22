@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wall $(INCLUDES)
-LIBPATH = -L$(SRCTOP)/../../lib/btree/
-LIBS = $(LIBPATH) -lstatic_btree_lib
+LIBPATH = -L$(SRCTOP)/../../lib/tree/
+LIBS = $(LIBPATH) -lstatic_tree_lib
 EXES = postorder_traversal
 
 all: clean $(EXES)

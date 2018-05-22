@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-#include "static_btree_lib.h"
+#include "static_tree_lib.h"
 
 int create_tree(struct TreeNode **node) {
     int val = 0;

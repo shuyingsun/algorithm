@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-#include "../../lib/btree/static_btree_lib.h"
+#include "../../lib/tree/static_tree_lib.h"
 
 void postorder_traversal_recur(struct TreeNode *root);
 int postorder_traversal(struct TreeNode *root);
