@@ -84,6 +84,19 @@ void link_list_delete(link_list *head, int val) {
     return;
 }
 
+void link_list_delete_first_element(link_list *head, int *val) {
+    link_list *node = head->next;
+
+    if (head == NULL || node == NULL)
+        return;
+
+    head->next = node->next;
+    *val = node->val;
+
+    free(node); 
+    return;
+}
+
 void print_link_list(link_list *head) {
     link_list *curr = NULL;
 

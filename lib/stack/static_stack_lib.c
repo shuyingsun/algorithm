@@ -85,6 +85,27 @@ queue_by_two_stacks* create_queue_by_two_stacks(int queueSize) {
     return new_queue;
 }
 
+link_list_stack* create_link_list_stack() {
+    link_list_stack *new_stack = NULL;
+    link_list *new_head = NULL;
+
+    new_stack = (link_list_stack *)malloc(sizeof(link_list_stack));
+    if (new_stack == NULL) {
+        printf("Malloc new_stack failed.\n");
+        return NULL;
+    }
+
+    new_head = create_link_list();
+    if (new_head == NULL) {
+        printf("Malloc link_list failed.\n");
+        free(new_stack);
+        return NULL;
+    }
+
+    new_stack->head = new_head;
+    return new_stack;
+} 
+
 void destroy_array_stack(array_stack *stack) {
     if (stack == NULL)
         return;
@@ -108,6 +129,13 @@ void destroy_queue_by_two_stacks(queue_by_two_stacks *queue) {
     destroy_array_stack(queue->stack2);
 }
 
+void destroy_link_list_stack(link_list_stack *stack) {
+    if (stack == NULL)
+        return;
+    destroy_link_list(stack->head);
+    free(stack);
+}
+
 /*
  * Check whether the stack is full
  * If full, return TRUE
@@ -123,6 +151,10 @@ bool is_two_end_array_stack_full(two_end_array_stack stack) {
 
 bool is_queue_by_two_stacks_full(queue_by_two_stacks queue) {
     return is_array_stack_full(*(queue.stack1));
+}
+
+bool is_link_list_stack_full(link_list_stack stack) {
+    return false;
 }
 
 /*
@@ -142,6 +174,10 @@ bool is_two_end_array_stack_empty(two_end_array_stack stack, bool is_forward) {
 
 bool is_queue_by_two_stacks_empty(queue_by_two_stacks queue) {
     return (is_array_stack_empty(*(queue.stack1)) && is_array_stack_empty(*(queue.stack2)));
+}
+
+bool is_link_list_stack_empty(link_list_stack stack) {
+    return (stack.head->next == NULL);
 }
 
 /*
@@ -180,6 +216,10 @@ void enqueue_by_two_stacks(queue_by_two_stacks *queue, int val) {
         return;
     }
     push_array_stack(queue->stack1, val);
+}
+
+void push_link_list_stack(link_list_stack *stack, int val) {
+    link_list_insert(stack->head, val);
 }
 
 /*
@@ -225,4 +265,14 @@ bool dequeue_by_two_stacks(queue_by_two_stacks *queue, int *val) {
     }
     pop_array_stack(queue->stack2, val);
     return true;
+}
+
+int pop_link_list_stack(link_list_stack *stack, int *val) {
+    if (is_link_list_stack_empty(*stack)) {
+        printf("The stack is empty, pop failed.\n");
+        return -1;
+    }
+
+    link_list_delete_first_element(stack->head, val);
+    return 1;
 }
