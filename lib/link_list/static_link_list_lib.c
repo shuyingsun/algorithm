@@ -199,6 +199,29 @@ bool circular_link_list_delete_first_element(link_list *head, int *val) {
     return true;
 }
 
+void link_list_reverse(link_list *head) {
+    link_list *priv, *curr, *next;
+
+    if (head == NULL)
+        return;
+
+    priv = NULL;
+    curr = head->next;
+    if (curr == NULL)
+        return;
+
+    while (1) {
+        next = curr->next;
+        curr->next = priv;
+        if (next == NULL) {
+            head->next = curr;
+            return;
+        }
+        priv = curr;
+        curr = next;
+    }
+}
+
 void print_link_list(link_list *head) {
     link_list *curr = NULL;
 

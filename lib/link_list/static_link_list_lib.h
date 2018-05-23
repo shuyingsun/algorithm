@@ -17,6 +17,7 @@ void link_list_insert(link_list *head, int val);
 link_list* link_list_search(link_list *head, int val);
 void link_list_delete(link_list *head, int val);
 void link_list_delete_first_element(link_list *head, int *val);
+void link_list_reverse(link_list *head);
 void print_link_list(link_list *head);
 
 link_list* create_circular_link_list();
