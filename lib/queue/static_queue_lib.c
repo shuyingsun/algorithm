@@ -25,6 +25,28 @@ array_queue* create_array_queue(int queueSize) {
     return new_queue;
 }
 
+link_list_queue* create_link_list_queue() {
+    link_list_queue *new_queue = NULL;
+    link_list *new_link_list = NULL;
+
+    new_queue = (link_list_queue *)malloc(sizeof(link_list_queue));
+    if (new_queue == NULL) {
+        printf("Malloc failure for new_queue.\n");
+        return NULL;
+    }
+
+    new_link_list = create_link_list();
+    if (new_link_list == NULL) {
+        printf("Malloc failure for new_link_list.\n");
+        free(new_queue);
+        return NULL;
+    }
+
+    new_queue->head = new_link_list;
+    new_queue->tail = new_link_list;
+    return new_queue;
+}
+
 stack_by_two_queues* create_stack_by_two_queues(int stackSize) {
     stack_by_two_queues *new_stack = NULL;
     array_queue *new_queue1 = NULL, *new_queue2 = NULL;
@@ -64,6 +86,13 @@ void destroy_array_queue(array_queue *queue) {
     free(queue);
 }
 
+void destroy_link_list_queue(link_list_queue *queue) {
+    if (queue == NULL)
+        return;
+    destroy_link_list(queue->head);
+    free(queue);
+}
+
 void destroy_stack_by_two_queues(stack_by_two_queues *stack) {
     if (stack == NULL)
         return;
@@ -75,12 +104,20 @@ bool is_array_queue_empty(array_queue queue) {
     return (queue.head == queue.tail);
 }
 
+bool is_link_list_queue_empty(link_list_queue queue) {
+    return (queue.head == queue.tail);
+}
+
 bool is_stack_by_two_queues_empty(stack_by_two_queues stack) {
     return (is_array_queue_empty(*(stack.queue1)) && is_array_queue_empty(*(stack.queue2)));
 }
 
 bool is_array_queue_full(array_queue queue) {
     return (queue.head == (queue.tail + 1) % queue.queueSize);
+}
+
+bool is_link_list_queue_full(link_list_queue queue) {
+    return false;
 }
 
 bool is_stack_by_two_queues_full(stack_by_two_queues stack) {
@@ -112,6 +149,19 @@ void enqueue_deque_array(array_queue *queue, int val, deque_direction dir) {
     queue->tail = (queue->tail + 1) % queue->queueSize;
 }
 
+void enqueue_link_list(link_list_queue *queue, int val) {
+    link_list *node = (link_list *)malloc(sizeof(link_list));
+
+    if (node == NULL) {
+        printf("Malloc failure for new link list node.\n");
+        return;
+    }
+
+    node->val = val;
+    queue->tail->next = node;
+    queue->tail = node;
+}
+
 void dequeue_array(array_queue *queue, int *val) {
     if (is_array_queue_empty(*queue)) {
         printf("The queue is empty, dequeue failed.\n");
@@ -135,6 +185,19 @@ void dequeue_deque_array(array_queue *queue, int *val, deque_direction dir) {
     }
     *val = queue->nums[queue->head];
     queue->head = (queue->head + 1) % queue->queueSize;
+}
+
+bool dequeue_link_list(link_list_queue *queue, int *val) {
+    if (is_link_list_queue_empty(*queue)) {
+        printf("The queue is empty, dequeue failed.\n");
+        return false;
+    }
+
+    link_list_delete_first_element(queue->head, val);
+
+    if (queue->head->next == NULL)
+        queue->tail = queue->head;
+    return true;
 }
 
 void push_by_two_queues(stack_by_two_queues *stack, int val) {
