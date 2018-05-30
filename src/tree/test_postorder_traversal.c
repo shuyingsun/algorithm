@@ -1,9 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <malloc.h>
 #include "../../lib/tree/static_tree_lib.h"
 
-void postorder_traversal_recur(struct TreeNode *root);
 int postorder_traversal(struct TreeNode *root);
 int seek_priv (struct TreeNode *curr, struct TreeNode **priv);
 void reverse_print(struct TreeNode *curr, struct TreeNode *priv, int num);
@@ -38,15 +34,6 @@ int main(int argc,char *argv[]) {
 
     destroy_tree(&root);
     return 0;
-}
-
-void postorder_traversal_recur(struct TreeNode *root) {
-    if (root == NULL) {
-        return;
-    }
-    postorder_traversal_recur(root->left);
-    postorder_traversal_recur(root->right);
-    printf("%d ", root->val);
 }
 
 int postorder_traversal(struct TreeNode *root) {
