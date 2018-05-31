@@ -1,18 +1,14 @@
 #include "../../lib/tree/static_tree_lib.h"
 
-int postorder_traversal(struct TreeNode *root);
-int seek_priv (struct TreeNode *curr, struct TreeNode **priv);
-void reverse_print(struct TreeNode *curr, struct TreeNode *priv, int num);
+int postorder_traversal(tree_node_t *root);
+int seek_priv (tree_node_t *curr, tree_node_t **priv);
+void reverse_print(tree_node_t *curr, tree_node_t *priv, int num);
 
 int main(int argc,char *argv[]) {
-    struct TreeNode *root = NULL;
+    tree_node_t *root = NULL;
     int ret = 0;
 
-    ret = create_tree(&root);
-    if (ret == 0) {
-        printf("Creating tree failed.\n");
-        return 0;
-    }
+    root = create_tree();
     if (root == NULL) {
         printf("root is NULL.\n");
         return 0;
@@ -36,11 +32,11 @@ int main(int argc,char *argv[]) {
     return 0;
 }
 
-int postorder_traversal(struct TreeNode *root) {
-    struct TreeNode *priv = NULL, *curr = NULL, *dummy = NULL;
+int postorder_traversal(tree_node_t *root) {
+    tree_node_t *priv = NULL, *curr = NULL, *dummy = NULL;
     int num;
 
-    dummy = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    dummy = (tree_node_t*)malloc(sizeof(tree_node_t));
     if (dummy == NULL) {
         printf("Malloc failure.\n");
         return 0;
@@ -79,7 +75,7 @@ int postorder_traversal(struct TreeNode *root) {
     return 1;
 }
 
-int seek_priv (struct TreeNode *curr, struct TreeNode **priv) {
+int seek_priv (tree_node_t *curr, tree_node_t **priv) {
     int count = 0;
 
     if (curr == NULL) {
@@ -101,8 +97,8 @@ int seek_priv (struct TreeNode *curr, struct TreeNode **priv) {
     return count;
 }
 
-void reverse_print(struct TreeNode *curr, struct TreeNode *priv, int num) {
-    struct TreeNode *temp = curr->left;
+void reverse_print(tree_node_t *curr, tree_node_t *priv, int num) {
+    tree_node_t *temp = curr->left;
     int idx = 0;
     int *node_val = (int *)malloc(sizeof(int) * num);
 

@@ -1,29 +1,54 @@
 #include "static_tree_lib.h"
 
-int create_tree(struct TreeNode **node) {
+tree_node_t* create_tree() {
+    tree_node_t *node, *left, *right;
     int val = 0;
 
     printf("Input TreeNode value, enter \"0\" to indicate NULL.\n");
     scanf("%d", &val);
     if (val == 0) {
-        *node = NULL;
+        node = NULL;
     } else {
-        *node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
-        if (*node == NULL) {
+        node = (tree_node_t*)malloc(sizeof(tree_node_t));
+        if (node == NULL) {
             printf("Malloc failure.\n");
-            return 0;
+            return NULL;
         }
-        (*node)->val = val;
-        (*node)->left = NULL;
-        (*node)->right = NULL;
-        create_tree(&((*node)->left));
-        create_tree(&((*node)->right));
+        node->val = val;
+        left = create_tree();
+        node->left = left;
+        right = create_tree();
+        node->right = right;
     }
-    return 1;
+    return node;
 }
 
-void destroy_tree(struct TreeNode **node) {
-    struct TreeNode *left, *right;
+cs_tree_node_t* create_cs_tree() {
+    cs_tree_node_t *node, *left, *sibling;
+    int val = 0;
+
+    printf("Input TreeNode value, enter \"0\" to indicate NULL.\n");
+    scanf("%d", &val);
+    if (val == 0) {
+        node = NULL;
+    } else {
+        node = (cs_tree_node_t*)malloc(sizeof(cs_tree_node_t));
+        if (node == NULL) {
+            printf("Malloc failure.\n");
+            return NULL;
+        }
+        node->val = val;
+        left = create_cs_tree();
+        node->left = left;
+        sibling = create_cs_tree();
+        node->sibling = sibling;
+    }
+    return node;
+}
+
+
+void destroy_tree(tree_node_t **node) {
+    tree_node_t *left, *right;
 
     if (*node == NULL)
         return;
@@ -40,7 +65,26 @@ void destroy_tree(struct TreeNode **node) {
     free(*node);
 }
 
-void preorder_traversal_recur(struct TreeNode *root) {
+void destroy_cs_tree(cs_tree_node_t **node) {
+    cs_tree_node_t *left, *sibling;
+
+    if (*node == NULL)
+        return;
+
+    printf("Destroying node %d\n", (*node)->val);
+    left = (*node)->left;
+    sibling = (*node)->sibling;
+    (*node)->left = NULL;
+    (*node)->sibling = NULL;
+    free(*node);
+    *node = NULL;
+
+    destroy_cs_tree(&left);
+    destroy_cs_tree(&sibling);
+    free(*node);
+}
+
+void preorder_traversal_recur(tree_node_t *root) {
     if (root == NULL)
         return;
     printf("%d ", root->val);
@@ -49,9 +93,9 @@ void preorder_traversal_recur(struct TreeNode *root) {
 }
 
 #define STACK_SIZE 30
-void preorder_traversal_stack(struct TreeNode *root) {
+void preorder_traversal_stack(tree_node_t *root) {
     stack_for_tree *stack = NULL;
-    struct TreeNode *curr = NULL;
+    tree_node_t *curr = NULL;
     int ret = -1;
 
     if (root == NULL)
@@ -85,7 +129,15 @@ void preorder_traversal_stack(struct TreeNode *root) {
     destroy_stack_for_tree(stack);
 }
 
-void postorder_traversal_recur(struct TreeNode *root) {
+void traverse_cs_tree(cs_tree_node_t *root) {
+    if (root == NULL)
+        return;
+    printf("%d ", root->val);
+    traverse_cs_tree(root->sibling);
+    traverse_cs_tree(root->left);
+}
+
+void postorder_traversal_recur(tree_node_t *root) {
     if (root == NULL)
         return;
     postorder_traversal_recur(root->left);

@@ -12,12 +12,23 @@ typedef struct TreeNode{
     struct TreeNode *right;
 }tree_node_t;
 
-int create_tree(struct TreeNode **node);
-void destroy_tree(struct TreeNode **node);
-void preorder_traversal_recur(struct TreeNode *root);
-void preorder_traversal_stack(struct TreeNode *root);
-void postorder_traversal_recur(struct TreeNode *root);
+tree_node_t* create_tree();
+void destroy_tree(tree_node_t **node);
+void preorder_traversal_recur(tree_node_t *root);
+void preorder_traversal_stack(tree_node_t *root);
+void postorder_traversal_recur(tree_node_t *root);
 
+
+
+typedef struct CSTreeNode {
+    int val;
+    struct CSTreeNode *left;
+    struct CSTreeNode *sibling;
+} cs_tree_node_t;
+
+cs_tree_node_t* create_cs_tree();
+void destroy_cs_tree(cs_tree_node_t **node);
+void traverse_cs_tree(cs_tree_node_t *root);
 
 
 

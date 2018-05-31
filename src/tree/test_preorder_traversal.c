@@ -1,14 +1,9 @@
 #include "../../lib/tree/static_tree_lib.h"
 
 int main(int argc,char *argv[]) {
-    struct TreeNode *root = NULL;
-    int ret = 0;
+    tree_node_t *root = NULL;
 
-    ret = create_tree(&root);
-    if (ret == 0) {
-        printf("Creating tree failed.\n");
-        return 0;
-    }
+    root = create_tree();
     if (root == NULL) {
         printf("root is NULL.\n");
         return 0;
